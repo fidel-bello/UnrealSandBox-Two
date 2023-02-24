@@ -1,29 +1,13 @@
-// Copyright: Fidel Bello.
+// Copyright: Fidel Bello. All rights reserved
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "BaseTestCharacter.h"
 #include "TestCharacter.generated.h"
 
-UCLASS()
-class PRACTICE_API ATestCharacter : public ACharacter
+UCLASS(BlueprintType)
+class PRACTICE_API ATestCharacter final: public ABaseTestCharacter
 {
 	GENERATED_BODY()
-
-public:
-	// Sets default values for this character's properties
-	ATestCharacter();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 };

@@ -13,5 +13,4 @@ UCLASS()
 class PRACTICE_API APracticeGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };
