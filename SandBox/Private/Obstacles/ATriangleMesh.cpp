@@ -1,5 +1,4 @@
-﻿#include "Editor/LevelEditor/Public/LevelEditor.h"
-#include "../../../Public/Obstacles/Triangle/ATriangleMesh.h"
+﻿#include "../../Public/Obstacles/ATriangleMesh.h"
 
 
 ATriangleMesh::ATriangleMesh()
@@ -35,7 +34,7 @@ void ATriangleMesh::PostInitializeComponents()
 
 
 
-void ATriangleMesh::UpdateTriangle()
+void ATriangleMesh::UpdateTriangle() const
 {
 	TArray<FVector> Vertices;
 	Vertices.Add(Vertex0);         // Vertex 0

@@ -35,5 +35,5 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Triangle")
 	UMaterialInterface* Material;
 
-	void UpdateTriangle();
+	void UpdateTriangle() const;
 };
