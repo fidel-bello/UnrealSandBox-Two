@@ -4,6 +4,8 @@
 #include "Components/TimelineComponent.h"
 #include "SBPlayableCharacter.generated.h"
 
+
+
 UCLASS(Blueprintable)
 class SANDBOX_API ASBPlayableCharacter: public ASBBaseCharacter
 {
@@ -20,16 +22,21 @@ public:
 	float SpringArmLength = 400.0f;;
 
 protected:
+
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Character | Camera")
 	class USpringArmComponent* SpringArmComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Character | Camera")
 	class UCameraComponent* CameraComponent;
 
+
+
+
 private:
 	FTimeline SprintArmTimeline;
 	
 	float DefaultSpringArmLength;
 	
-	void HandleSpringArm(float Value);
+	void HandleSpringArm(float Value) const;
 };

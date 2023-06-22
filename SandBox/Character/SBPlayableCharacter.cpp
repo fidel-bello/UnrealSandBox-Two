@@ -2,12 +2,14 @@
 #include  "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/TimelineComponent.h"
+
 #include "GameFramework/CharacterMovementComponent.h"
 
 
 ASBPlayableCharacter::ASBPlayableCharacter(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->bUsePawnControlRotation = true;
@@ -40,9 +42,10 @@ void ASBPlayableCharacter::Tick(float DeltaSeconds)
 	SprintArmTimeline.TickTimeline(DeltaSeconds);
 }
 
-void ASBPlayableCharacter::HandleSpringArm(float Value)
+
+void ASBPlayableCharacter::HandleSpringArm(float Value) const
 {
-	float Result = FMath::Lerp<float>(DefaultSpringArmLength, SpringArmLength, Value);
+	const float Result = FMath::Lerp<float>(DefaultSpringArmLength, SpringArmLength, Value);
 	SpringArmComponent->TargetArmLength = Result;
 }
 
