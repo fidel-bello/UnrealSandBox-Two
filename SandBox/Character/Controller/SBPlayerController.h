@@ -26,6 +26,12 @@ protected:
 	UFUNCTION()
 	void RightMovementAction(const FInputActionValue& Value);
 
+	UFUNCTION()
+	void IncreaseMovementSpeed();
+
+	UFUNCTION()
+	void DecreaseMovementSpeed();
+
 public:
 	UPROPERTY(BlueprintReadOnly, Category="SandBox")
 	TSoftObjectPtr<ASBPlayableCharacter> PossessedCharacter;

@@ -1,4 +1,6 @@
 ﻿#include "SBBaseCharacter.h"
+
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -11,6 +13,8 @@ void ASBBaseCharacter::BeginPlay()
 	PrimaryActorTick.bCanEverTick = true;
 	bUseControllerRotationYaw = 0;
 	bReplicates = true;
+	
+	GetCharacterMovement()->MaxWalkSpeed = 150.f;
 	SetReplicatingMovement(true);
 }
 
@@ -22,6 +26,28 @@ void ASBBaseCharacter::Tick(float DeltaSeconds)
 	PreviousVelocity = GetVelocity();
 	PreviousAimYaw = AimingRotation.Yaw;
 }
+
+void ASBBaseCharacter::IncreaseMovementSpeed_Implementation()
+{
+	if (GetCharacterMovement()->GetMaxSpeed() <= 160.f)
+	{
+		const float Add = GetCharacterMovement()->MaxCustomMovementSpeed = 10.f;
+		const float Speed = GetCharacterMovement()->GetMaxSpeed();
+
+		GetCharacterMovement()->MaxWalkSpeed = Speed + Add;
+	}
+}
+
+void ASBBaseCharacter::DecreaseMovementSpeed_Implementation()
+{
+	if (GetCharacterMovement()->GetMaxSpeed() >= 10.f)
+	{
+		const float Subtract = GetCharacterMovement()->MaxCustomMovementSpeed = 5.f;
+		const float Speed = GetCharacterMovement()->GetMaxSpeed();
+		GetCharacterMovement()->MaxWalkSpeed  = Speed - Subtract;
+	}
+}
+
 
 void ASBBaseCharacter::SetEssentialValues(float DeltaTime)
 {

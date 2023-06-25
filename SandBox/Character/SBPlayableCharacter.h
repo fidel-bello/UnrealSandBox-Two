@@ -20,7 +20,7 @@ public:
 	UCurveFloat* SpringArmSprintCurvature;
 	
 	UPROPERTY(EditAnywhere, Category = "SandBox|Camera", meta = (ClampMin = 0.0f, UIMin = 0.0f))
-	float SpringArmLength = 400.0f;
+	float SpringArmLength = 300.f;
 
 	
 protected:

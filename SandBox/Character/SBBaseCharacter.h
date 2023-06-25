@@ -21,6 +21,12 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
 	void RightMovementAction(float Value);
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
+	void IncreaseMovementSpeed();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
+	void DecreaseMovementSpeed();
+	
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "SandBox|Essential Information")
 	FRotator ReplicatedControlRotation = FRotator::ZeroRotator;

@@ -91,3 +91,21 @@ void ASBPlayerController::RightMovementAction(const FInputActionValue& Value)
 	}
 }
 
+void ASBPlayerController::IncreaseMovementSpeed()
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->IncreaseMovementSpeed();
+	}
+}
+
+void ASBPlayerController::DecreaseMovementSpeed()
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->DecreaseMovementSpeed();
+	}
+}
+
+
+
