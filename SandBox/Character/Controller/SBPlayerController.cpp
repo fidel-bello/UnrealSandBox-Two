@@ -1,24 +1,26 @@
-﻿#include "SBPlayerController.h"
+﻿// ReSharper disable CppMemberFunctionMayBeConst
+
+#include "SBPlayerController.h"
 #include "Engine/LocalPlayer.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
-#include "EnhancedInputComponent.h"
-#include "SandBox/Character/SBBaseCharacter.h"
+#include "Engine/LocalPlayer.h"
+#include "Logging/LogMacros.h"
+#include "SandBox/Character/SBPlayableCharacter.h"
 
-void ASBPlayerController::SetPawn(APawn* InPawn)
+
+void ASBPlayerController::OnPossess(APawn* InPawn)
 {
-	Super::SetPawn(InPawn);
-	CurrentCharacter = Cast<ASBBaseCharacter>(InPawn);
-
-	if (CurrentCharacter.IsValid())
+	Super::OnPossess(InPawn);
+	PossessedCharacter = Cast<ASBPlayableCharacter>(InPawn);
+	if (PossessedCharacter->GetController()->IsLocalController())
 	{
-		APawn* MainCharacter = CurrentCharacter.Get();
-		OnPossess(MainCharacter);
-		BindActions(DefaultInputMappingContext);
+		UE_LOG(LogTemp, Warning, TEXT("Possessed!"));
 	}
+	
+	SetupInputs();
 }
-
 
 void ASBPlayerController::SetupInputComponent()
 {
@@ -28,17 +30,14 @@ void ASBPlayerController::SetupInputComponent()
 		EnhancedInputComponent->ClearActionEventBindings();
 		EnhancedInputComponent->ClearActionValueBindings();
 		EnhancedInputComponent->ClearDebugKeyBindings();
+		
+		BindActions(DefaultInputMappingContext);
 	}
-	else
-	{
-		UE_LOG(LogTemp, Fatal, TEXT("Sandbox Community requires Enhanced Input System to be activated in project settings to function properly"));
-	}
-	
 }
 
-void ASBPlayerController::SetupInputs() const
+void ASBPlayerController::SetupInputs()
 {
-	if (CurrentCharacter)
+	if (PossessedCharacter)
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 		{
@@ -49,14 +48,13 @@ void ASBPlayerController::SetupInputs() const
 	}
 }
 
-void ASBPlayerController::BindActions(const UInputMappingContext* Context)
+void ASBPlayerController::BindActions(UInputMappingContext* Context)
 {
 	if (Context)
 	{
 		const TArray<FEnhancedActionKeyMapping>& Mappings = Context->GetMappings();
 		if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
 		{
-			// There may be more than one keymapping assigned to one action. So, first filter duplicate action entries to prevent multiple delegate bindings
 			TSet<const UInputAction*> UniqueActions;
 			for (const FEnhancedActionKeyMapping& Keymapping : Mappings)
 			{
@@ -64,19 +62,24 @@ void ASBPlayerController::BindActions(const UInputMappingContext* Context)
 			}
 			for (const UInputAction* UniqueAction : UniqueActions)
 			{
+				FString Action = UniqueAction ? UniqueAction->GetName(): "Action is Empty";
+				UE_LOG(LogTemp, Warning, TEXT("Unique Action: %s"), *Action);
 				EnhancedInputComponent->BindAction(UniqueAction, ETriggerEvent::Triggered, Cast<UObject>(this), UniqueAction->GetFName());
 			}
 		}
 	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No Context"));
+	}
 }
 
-void ASBPlayerController::ForwardMovementAction(const FInputActionValue& Value) const
-{
-	if (CurrentCharacter)
-	{
 
-		CurrentCharacter->ForwardMovementAction(Value.GetMagnitude());
+void ASBPlayerController::ForwardMovementAction(const FInputActionValue& Value)
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->ForwardMovementAction(Value.GetMagnitude());
 	}
-	
 }
 
