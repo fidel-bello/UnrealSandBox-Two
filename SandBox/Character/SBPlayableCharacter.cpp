@@ -2,14 +2,13 @@
 #include  "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/TimelineComponent.h"
-
 #include "GameFramework/CharacterMovementComponent.h"
+
 
 
 ASBPlayableCharacter::ASBPlayableCharacter(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
 	SpringArmComponent->bUsePawnControlRotation = true;
