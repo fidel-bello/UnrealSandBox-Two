@@ -83,3 +83,11 @@ void ASBPlayerController::ForwardMovementAction(const FInputActionValue& Value)
 	}
 }
 
+void ASBPlayerController::RightMovementAction(const FInputActionValue& Value)
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->RightMovementAction(Value.GetMagnitude());
+	}
+}
+

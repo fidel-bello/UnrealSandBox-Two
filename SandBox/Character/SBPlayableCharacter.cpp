@@ -2,8 +2,6 @@
 #include  "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/TimelineComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
-
 
 
 ASBPlayableCharacter::ASBPlayableCharacter(const FObjectInitializer& ObjectInitializer)
@@ -17,10 +15,6 @@ ASBPlayableCharacter::ASBPlayableCharacter(const FObjectInitializer& ObjectIniti
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->bUsePawnControlRotation = false;
-	
-	
-	GetCharacterMovement()->bOrientRotationToMovement = 1;
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
 }
 
 void ASBPlayableCharacter::BeginPlay()
