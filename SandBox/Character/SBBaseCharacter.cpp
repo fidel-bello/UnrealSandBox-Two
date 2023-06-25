@@ -17,7 +17,8 @@ void ASBBaseCharacter::Tick(float DeltaSeconds)
 
 void ASBBaseCharacter::ForwardMovementAction_Implementation(float Value)
 {
-	const FRotator DirRotator(0.0f, AimingRotation.Yaw, 0.0f);
+	
+	const FRotator DirRotator(0.0f, AimingRotation.Yaw = 90.0f, 0.0f);
 	AddMovementInput(UKismetMathLibrary::GetForwardVector(DirRotator), Value);
 }
 
