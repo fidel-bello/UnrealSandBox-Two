@@ -1,3 +1,3 @@
 # UnrealSandBox-Two
 # TODO
-- [ ] add forward movement to character controller
+- [x] add forward movement to character controller
