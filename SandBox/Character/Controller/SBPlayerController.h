@@ -16,7 +16,7 @@ public:
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void SetupInputComponent() override;
 	virtual void BindActions(UInputMappingContext* Context);
-
+	
 protected:
 	void SetupInputs();
 	
@@ -27,15 +27,20 @@ protected:
 	void RightMovementAction(const FInputActionValue& Value);
 
 	UFUNCTION()
-	void IncreaseMovementSpeed();
+	void IncreaseMovementSpeedAction();
 
 	UFUNCTION()
-	void DecreaseMovementSpeed();
+	void DecreaseMovementSpeedAction();
+
+	UFUNCTION()
+	void SwitchPovAction();
 
 public:
+	
 	UPROPERTY(BlueprintReadOnly, Category="SandBox")
 	TSoftObjectPtr<ASBPlayableCharacter> PossessedCharacter;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "SandBox|Input")
 	TObjectPtr<UInputMappingContext> DefaultInputMappingContext = nullptr;
+	
 };

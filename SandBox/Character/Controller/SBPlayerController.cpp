@@ -9,7 +9,6 @@
 #include "Logging/LogMacros.h"
 #include "SandBox/Character/SBPlayableCharacter.h"
 
-
 void ASBPlayerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
@@ -63,14 +62,9 @@ void ASBPlayerController::BindActions(UInputMappingContext* Context)
 			for (const UInputAction* UniqueAction : UniqueActions)
 			{
 				FString Action = UniqueAction ? UniqueAction->GetName(): "Action is Empty";
-				UE_LOG(LogTemp, Warning, TEXT("Unique Action: %s"), *Action);
 				EnhancedInputComponent->BindAction(UniqueAction, ETriggerEvent::Triggered, Cast<UObject>(this), UniqueAction->GetFName());
 			}
 		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No Context"));
 	}
 }
 
@@ -91,21 +85,30 @@ void ASBPlayerController::RightMovementAction(const FInputActionValue& Value)
 	}
 }
 
-void ASBPlayerController::IncreaseMovementSpeed()
+void ASBPlayerController::IncreaseMovementSpeedAction()
 {
 	if (PossessedCharacter)
 	{
-		PossessedCharacter->IncreaseMovementSpeed();
+		PossessedCharacter->IncreaseMovementSpeedAction();
 	}
 }
 
-void ASBPlayerController::DecreaseMovementSpeed()
+void ASBPlayerController::DecreaseMovementSpeedAction()
 {
 	if (PossessedCharacter)
 	{
-		PossessedCharacter->DecreaseMovementSpeed();
+		PossessedCharacter->DecreaseMovementSpeedAction();
 	}
 }
+
+void ASBPlayerController::SwitchPovAction()
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->SwitchPovAction();
+	}
+}
+
 
 
 
