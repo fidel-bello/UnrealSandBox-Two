@@ -1,7 +1,6 @@
 ﻿#include "SBBaseCharacter.h"
 #include "SBPlayableCharacter.h"
 #include "Camera/CameraComponent.h"
-#include "Templates/UniquePtr.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -28,6 +27,16 @@ void ASBBaseCharacter::Tick(float DeltaSeconds)
 	
 	PreviousVelocity = GetVelocity();
 	PreviousAimYaw = AimingRotation.Yaw;
+}
+
+void ASBBaseCharacter::LookRightAction_Implementation(float Value)
+{
+	AddControllerYawInput(Value);
+}
+
+void ASBBaseCharacter::LookUpAction_Implementation(float Value)
+{
+	AddControllerPitchInput(LookUpDownRate * Value);
 }
 
 

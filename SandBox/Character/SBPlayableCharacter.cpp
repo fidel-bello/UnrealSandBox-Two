@@ -17,12 +17,12 @@ ASBPlayableCharacter::ASBPlayableCharacter(const FObjectInitializer& ObjectIniti
 	
 	SetActorScale3D(FVector(UE::Math::TVector2<double>(CurrentSize.X * ScaleFactor), CurrentSize.Z * ScaleFactor));
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
-	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->SetupAttachment(SpringArmComponent);
 	SpringArmComponent->bUsePawnControlRotation = true;
 	DefaultSpringArmLength = SpringArmComponent->TargetArmLength;
 	
 	FpCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person"));
-	FpCamera->SetupAttachment(GetCapsuleComponent());
+	FpCamera->SetupAttachment(SpringArmComponent);
 	FpCamera->SetRelativeLocation(FVector(0.0f, 0.0f, 83));
 	FpCamera->bUsePawnControlRotation = false;
 
@@ -31,7 +31,7 @@ ASBPlayableCharacter::ASBPlayableCharacter(const FObjectInitializer& ObjectIniti
 	TpCamera->bUsePawnControlRotation = false;
 
 	HCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Helmet Camera"));
-	HCamera->SetupAttachment(RootComponent);
+	HCamera->SetupAttachment(SpringArmComponent);
 	HCamera->SetRelativeLocation(FVector(-8.56f, 18.52,  18.0f + BaseEyeHeight));
 	HCamera->bUsePawnControlRotation = false;
 }

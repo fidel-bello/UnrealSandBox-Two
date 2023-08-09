@@ -25,6 +25,12 @@ public:
 	void RightMovementAction(float Value);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
+	void LookUpAction(float Value);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
+	void LookRightAction(float Value);
+	
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
 	void IncreaseMovementSpeedAction();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="SandBox|Input")
@@ -34,6 +40,13 @@ public:
 	void SwitchPovAction();
 	
 protected:
+	
+	UPROPERTY(EditDefaultsOnly, Category = "SandBox|Input", BlueprintReadOnly)
+	float LookUpDownRate = 1.25f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "SandBox|Input", BlueprintReadOnly)
+	float LookLeftRightRate = 1.25f;
+	
 	FRotator ReplicatedControlRotation = FRotator::ZeroRotator;
 	FVector PreviousVelocity = FVector::ZeroVector;
 	FRotator AimingRotation = FRotator::ZeroRotator;

@@ -85,6 +85,23 @@ void ASBPlayerController::RightMovementAction(const FInputActionValue& Value)
 	}
 }
 
+void ASBPlayerController::LookUpAction(const FInputActionValue& Value)
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->LookUpAction(Value.GetMagnitude());
+	}
+}
+
+
+void ASBPlayerController::LookRightAction(const FInputActionValue& Value)
+{
+	if (PossessedCharacter)
+	{
+		PossessedCharacter->LookRightAction(Value.GetMagnitude());
+	}
+}
+
 void ASBPlayerController::IncreaseMovementSpeedAction()
 {
 	if (PossessedCharacter)

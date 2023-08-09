@@ -27,6 +27,12 @@ protected:
 	void RightMovementAction(const FInputActionValue& Value);
 
 	UFUNCTION()
+	void LookUpAction(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void LookRightAction(const FInputActionValue& Value);
+
+	UFUNCTION()
 	void IncreaseMovementSpeedAction();
 
 	UFUNCTION()
