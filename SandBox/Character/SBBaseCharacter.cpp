@@ -1,5 +1,7 @@
 ﻿#include "SBBaseCharacter.h"
-
+#include "SBPlayableCharacter.h"
+#include "Camera/CameraComponent.h"
+#include "Templates/UniquePtr.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -18,6 +20,7 @@ void ASBBaseCharacter::BeginPlay()
 	SetReplicatingMovement(true);
 }
 
+
 void ASBBaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -27,7 +30,54 @@ void ASBBaseCharacter::Tick(float DeltaSeconds)
 	PreviousAimYaw = AimingRotation.Yaw;
 }
 
-void ASBBaseCharacter::IncreaseMovementSpeed_Implementation()
+
+void ASBBaseCharacter::SwitchPovAction_Implementation()
+{
+	// Accessing data from derived class through pointer
+	if (const ASBPlayableCharacter* PlayableCharacterPointer = Cast<ASBPlayableCharacter>(this))
+	{
+		
+		if (PlayableCharacterPointer->FpCamera->IsActive())
+		{
+			CurrentState = ECamPovState::First_Person;
+		}
+		else if (PlayableCharacterPointer->TpCamera->IsActive())
+		{
+			CurrentState = ECamPovState::Third_Person;
+		}
+		else if (PlayableCharacterPointer->HCamera->IsActive())
+		{
+			CurrentState = ECamPovState::Helmet_Camera;
+		}
+
+		switch (CurrentState)
+		{
+		case ECamPovState::First_Person:
+			PlayableCharacterPointer->FpCamera->Deactivate();
+			PlayableCharacterPointer->HCamera->Deactivate();
+			PlayableCharacterPointer->TpCamera->Activate();
+			break;
+
+		case ECamPovState::Third_Person:
+			PlayableCharacterPointer->TpCamera->Deactivate();
+			PlayableCharacterPointer->FpCamera->Deactivate();
+			PlayableCharacterPointer->HCamera->Activate();
+			break;
+
+		case ECamPovState::Helmet_Camera:
+			PlayableCharacterPointer->HCamera->Deactivate();
+			PlayableCharacterPointer->TpCamera->Deactivate();
+			PlayableCharacterPointer->FpCamera->Activate();
+			break;
+		default:
+			break;
+		}
+	}
+
+}
+
+
+void ASBBaseCharacter::IncreaseMovementSpeedAction_Implementation()
 {
 	if (GetCharacterMovement()->GetMaxSpeed() <= 160.f)
 	{
@@ -38,7 +88,7 @@ void ASBBaseCharacter::IncreaseMovementSpeed_Implementation()
 	}
 }
 
-void ASBBaseCharacter::DecreaseMovementSpeed_Implementation()
+void ASBBaseCharacter::DecreaseMovementSpeedAction_Implementation()
 {
 	if (GetCharacterMovement()->GetMaxSpeed() >= 10.f)
 	{
@@ -47,12 +97,6 @@ void ASBBaseCharacter::DecreaseMovementSpeed_Implementation()
 		GetCharacterMovement()->MaxWalkSpeed  = Speed - Subtract;
 	}
 }
-
-
-void ASBBaseCharacter::SetEssentialValues(float DeltaTime)
-{
-	AimingRotation = FMath::RInterpTo(AimingRotation, ReplicatedControlRotation, DeltaTime, 30);
-} 
 
 
 void ASBBaseCharacter::ForwardMovementAction_Implementation(float Value)
@@ -67,5 +111,16 @@ void ASBBaseCharacter::RightMovementAction_Implementation(float Value)
 	const FRotator DirRotator(0.0f, AimingRotation.Yaw, 0.0f);
 	AddMovementInput(UKismetMathLibrary::GetRightVector(DirRotator), Value);
 }
+
+
+void ASBBaseCharacter::SetEssentialValues(float DeltaTime)
+{
+	AimingRotation = FMath::RInterpTo(AimingRotation, ReplicatedControlRotation, DeltaTime, 30);
+}
+
+
+
+
+
 
 
